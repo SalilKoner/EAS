@@ -1,3 +1,1 @@
-# EAS
-# EAS
-# EAS
+# EAS for grouped variable selection in multivariate linear regression
