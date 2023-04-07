@@ -1,3 +1,2 @@
-# EAS
-# EAS
-# EAS
+# R codes for Numerical studies
+
