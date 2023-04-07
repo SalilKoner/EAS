@@ -63,7 +63,7 @@ time.CVEAS          <- proc.time()[3]-st.CVEAS[3]
 cat("Done EAS-CV \n")
 cat("time taken by CV method", time.CVEAS, "\n")
 cat("Finally chosen model via CV : ", final.model.CV[[1]]$Opt.model, "\n")
-cat("True model is : ", true.model)
+cat("True model is : ", true.model, "\n")
 cat("Number of covariates common in chosen and the true model", 
     length(intersect(final.model.CV[[1]]$Opt.model, true.model)), "\n")
 
@@ -115,40 +115,17 @@ res.CV.OLS_OLS       <- get_summary(Y.in=Y, X.in=X, Y.out=Y.out, X.out=X.out, B.
                                     B.true=true.B, model.hat=final.model.CV[[1]]$Opt.model, model.true = true.model,
                                     estModelFreq = final.model.CV[[1]]$ModelFreq)
 
-# epsilon chosen through OLS based cross-validation and using the B by Bayesian model averaging
-res.CV.OLS_BMA       <- get_summary(Y.in=Y, X.in=X, Y.out=Y.out, X.out=X.out, B.hat=final.model.CV[[1]]$Avg.B, 
-                                    B.true=true.B, model.hat=final.model.CV[[1]]$Opt.model, model.true = true.model,
-                                    estModelFreq = final.model.CV[[1]]$ModelFreq)
-
-# epsilon chosen through Bayesian model averaging based cross-validation and using the B for optimal model
-res.CV.BMA_OLS       <- get_summary(Y.in=Y, X.in=X, Y.out=Y.out, X.out=X.out, B.hat=final.model.CV[[2]]$Opt.B, 
-                                    B.true=true.B, model.hat=final.model.CV[[2]]$Opt.model, model.true = true.model,
-                                    estModelFreq = final.model.CV[[2]]$ModelFreq)
-
-# epsilon chosen through Bayesian model averaging based cross-validation and using the B by Bayesian model averaging
-res.CV.BMA_BMA       <- get_summary(Y.in=Y, X.in=X, Y.out=Y.out, X.out=X.out, B.hat=final.model.CV[[2]]$Avg.B, 
-                                    B.true=true.B, model.hat=final.model.CV[[2]]$Opt.model, model.true = true.model,
-                                    estModelFreq = final.model.CV[[2]]$ModelFreq)
-
 # The best model is obtained by BIC for the optimal model and using the B for optimal model
 res.BIC.OLS_OLS      <- get_summary(Y.in=Y, X.in=X, Y.out=Y.out, X.out=X.out, B.hat=final.model.BIC$Opt.B, 
                                     B.true=true.B, model.hat=final.model.BIC$Opt.model, model.true = true.model,
                                     estModelFreq = final.model.BIC$ModelFreq)
 
-# The best model is obtained by BIC for the optimal model and using the B by Bayesian model averaging
-res.BIC.OLS_BMA      <- get_summary(Y.in=Y, X.in=X, Y.out=Y.out, X.out=X.out, B.hat=final.model.BIC$Avg.B, 
-                                    B.true=true.B, model.hat=final.model.BIC$Opt.model, model.true = true.model,
-                                    estModelFreq = final.model.BIC$ModelFreq)
+res.BIC_CV              <- cbind(res.CV.OLS_OLS, res.BIC.OLS_OLS)
+
+res.BIC_CV              <- rbind(res.BIC_CV, c(time.CVEAS, time.BICEAS))
 
 
-res.BIC_CV              <- cbind(res.CV.OLS_OLS, res.CV.OLS_BMA, res.CV.BMA_OLS, 
-                                 res.CV.BMA_BMA, res.BIC.OLS_OLS, res.BIC.OLS_BMA)
-
-res.BIC_CV              <- rbind(res.BIC_CV, c(rep(time.CVEAS/4,4), rep(time.BICEAS/2,2)))
-
-
-colnames(res.BIC_CV)    <- c("CV.OLS.OLS", "CV.OLS.BMA", "CV.BMA.OLS", "CV.BMA.BMA", 
-                             "BIC.OLS.OLS", "BIC.OLS.BMA")
+colnames(res.BIC_CV)    <- c("CV.OLS.OLS", "BIC.OLS.OLS")
 
 rownames(res.BIC_CV)    <- c("Err.B", "Est.Err.inSample", "Pred.Err.inSample",
                              "Est.Err.outSample", "Pred.Err.outSample", "FDR", "FNR", "MP", "Prob.TrueModel", 

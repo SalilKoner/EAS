@@ -11,7 +11,7 @@ cat("working directory", cur.dir, "\n")
 cat("Experiment", Exper, "\n")
 source("setup_BaiGhosh2018.R")
 cat("n = ", n, "p = ", p, "q = ", q, "m0 = ", m0, "\n")
-cat("number of replications : ", n_data)
+cat("number of replications : ", n_data, "\n")
 
 if (!file.exists("Datasets")){
   dir.create("Datasets")

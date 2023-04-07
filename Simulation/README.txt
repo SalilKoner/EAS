@@ -1,7 +1,7 @@
-This directory contains the code to reproduce the results in the paper, The EAS
+This directory contains the code to reproduce the numerical results in the Section 5 of paper, The EAS
 approach for grouped variable selection in multivariate linear regression model.
 
-Please contact Salil Koner at skoner@ncsu.edu for any help or questions.
+Please contact Salil Koner at salil.koner@duke.edu for any help or questions.
 
 See workflow.sh for line-by-line Unix command line code for reproducing the 
 results.  Running the command,
@@ -17,12 +17,12 @@ differing results.
 Note: Following R packages must be installed in the system in order to successfully
 run the code. 
 "matrixsampling", "tidyverse", "Rfast", "MASS", "glmnet",
-"MBSP", "rrpack", "spls", "MSGLasso", "MBSGS"
+"MBSP", "rrpack", "spls", "MSGLasso", "MBSGS", Matrix
 
 The directory Results contains six separate sub-directories named as 
-Experiment1-Experiment6 where the output for each dataset will be stored.
-Any such output will be named as output_f{experiment_number}_dsn{dataset_number}.Rdata. 
+Experiment_1-Experiment_6 where the output for each dataset will be stored.
+Any such output will be named as output_{method}_dsn{dataset_number}.Rdata. 
 
 When the output for all the datasets (we take 1000 datasets in our paper) is created,
-the last part of workflow.sh will create the summary measures presented in Table 1 
-of the paper and save it at the same folder with the name Summary_f{dataset_number}.Rdata.
+the last part of workflow.sh will create the summary measures presented in Table 1 (or Table 2)
+of the paper and save it at the same folder with the name Summary_all.Rdata.
